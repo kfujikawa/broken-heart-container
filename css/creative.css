@@ -160,7 +160,7 @@ header {
   background-size: cover;
   -o-background-size: cover;
   background-position: center;
-  background-image: url('img/zelda_start_large.png');
+  background-image: url('img/zelda_start_smaller.png');
   text-align: center;
   color: white;
 }
