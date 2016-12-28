@@ -11,20 +11,26 @@ var SPOTIFY_AUDIO_FEATURES_URL = "https://api.spotify.com/v1/audio-features";
 
 // Get Spotify Data
 function getSearchDataFromApi(searchTerm, callback){
-	var query = {
-		q: searchTerm,
-		type: "artist"
-	}
-	$.getJSON(SPOTIFY_SEARCH_URL, query, callback);
-
+	var settings = {
+		url:  SPOTIFY_SEARCH_URL,
+		data: {
+			q: searchTerm,
+			type: "artist",
+		},
+		dataType: "json",
+		type: "GET",
+		success: callback
+	};
+	$.ajax(settings);
 }
-	function getArtistTopTracksFromApi(spotifyId, callback){
+
+function getArtistTopTracksFromApi(spotifyId, callback){
 		var query = {
 			id: spotifyId,
 			country: "US"
 		}
 		$.getJSON(SPOTIFY_ARTIST_TOP_TRACKS_URL, query, callback);
-	}
+}
 
 
 // Render Functionality
