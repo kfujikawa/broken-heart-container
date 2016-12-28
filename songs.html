@@ -72,20 +72,14 @@
         </section>
     </header> -->
         <div class="container">
+
             <h3 class="valence">Type in an artist and get the Broken Heart Container Valence rating</h3>
-            <form class="searchArtistForm">
-                <input class="searchBox" type="text" placeholder="Adele"><br>
-                <a href="#about" class="btn btn-primary btn-xl page-scroll">Search</a>
+            <form action="#" class="jsSearchArtistForm searchArtistForm">
+                <input class="searchBox jsQuery" type="text" placeholder="Adele"><br>
+                <button type="submit" class="searchButton btn btn-primary btn-xl page-scroll">Search</button>
             </form>
-            <div class="row">
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="service-box">
-                        <p>Song goes here</p>
-                        <img class="smallHeart" src="img/heart_container_full.png" alt="full Zelda heart container">
-                        <img class="smallHeart" src="img/heart_container_full.png" alt="full Zelda heart container">
-                        <img class="smallHeart" src="img/heart_container_full.png" alt="full Zelda heart container">
-                    </div>
-                </div>
+            <div class="row jsSearchResults">
+            
             </div>
         </div>
 
@@ -122,6 +116,9 @@
 
     <!-- Theme JavaScript -->
     <script src="js/creative.min.js"></script>
+
+    <!-- Search JavaScript -->
+    <script src="js/app.js"></script>
 
 </body>
 
