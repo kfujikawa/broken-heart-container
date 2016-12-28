@@ -8,37 +8,54 @@ var SPOTIFY_ARTIST_TOP_TRACKS_URL = "https://api.spotify.com/v1/artists/{id}/top
 // Get Audio Features for multiple Tracks - Requires Spotify ID
 var SPOTIFY_AUDIO_FEATURES_URL = "https://api.spotify.com/v1/audio-features";
 
+
+// Get Spotify Data
 function getSearchDataFromApi(searchTerm, callback){
 	var query = {
 		q: searchTerm,
 		type: "artist"
 	}
 	$.getJSON(SPOTIFY_SEARCH_URL, query, callback);
-}
 
-// //Render Functionality
+}
+	function getArtistTopTracksFromApi(spotifyId, callback){
+		var query = {
+			id: spotifyId,
+			country: "US"
+		}
+		$.getJSON(SPOTIFY_ARTIST_TOP_TRACKS_URL, query, callback);
+	}
+
+
+// Render Functionality
 function displaySpotifySearchArtistData(data){
 	var dataArray = data.artists;
+	var firstArtistResult = dataArray.items[0];
 	var resultElement = "";
 
 	console.log(dataArray);
 
-	if(dataArray){
-		var firstResultObject = dataArray.items[0];
-		console.log(firstResultObject);
-		var artistName = firstResultObject.name;
-		console.log(name);
-		var spotifyId = firstResultObject.id;
+	if(firstArtistResult){
+		var artistName = firstArtistResult.name;
+		var spotifyId = firstArtistResult.id;
 
-		resultElement += "<p>" + artistName + spotifyId + "</p>";
+		resultElement += "<h3>" + "Artist: " + artistName + "</h3>" +
+						"<p>" + spotifyId + "</p>";
 	}
 	
 	else{
-		resultElement += "<p>No Results";
+		resultElement += "<p>No Results.  Please modify your search and try again";
 	}
 
-	$(".jsSearchResults").html(resultElement);
+	$(".jsArtistSearchResults").html(resultElement);
 }
+
+// function displaySpotifyTopTracksData(tracks){
+// 	var trackArray = tracks.name;
+// 	console.log(trackArray);
+
+// 	$(".jsTracksSearchResults").html(resultElement);
+// }
 
 //Event Listener
 function watchSubmit(){
@@ -46,6 +63,7 @@ function watchSubmit(){
 		event.preventDefault();
 		var query = $(this).find(".jsQuery").val();
 		getSearchDataFromApi(query, displaySpotifySearchArtistData);
+		// getSearchDataFromApi(query, displaySpotifyTopTracksData);
 	});
 }
 
