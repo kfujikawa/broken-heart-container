@@ -3,13 +3,11 @@
 var SPOTIFY_SEARCH_URL = "https://api.spotify.com/v1/search";
 
 // Get an artists top tracks
-var SPOTIFY_ARTIST_TOP_TRACKS_URL = "https://api.spotify.com/v1/artists/{id}/top-tracks";
+var SPOTIFY_ARTIST_TOP_TRACKS_URL = "https://api.spotify.com/v1/artists/spotifyId/top-tracks";
 
 // Get Audio Features for multiple Tracks - Requires Spotify ID
 var SPOTIFY_AUDIO_FEATURES_URL = "https://api.spotify.com/v1/audio-features";
 
-
-// Get Spotify Data
 function getSearchDataFromApi(searchTerm, callback){
 	var settings = {
 		url:  SPOTIFY_SEARCH_URL,
@@ -25,13 +23,27 @@ function getSearchDataFromApi(searchTerm, callback){
 }
 
 function getArtistTopTracksFromApi(spotifyId, callback){
-		var query = {
+	var settings = {
+		url: "https://api.spotify.com/v1/artists/" + spotifyId + "/top-tracks",
+		data: {
 			id: spotifyId,
 			country: "US"
-		}
-		$.getJSON(SPOTIFY_ARTIST_TOP_TRACKS_URL, query, callback);
+		},
+		dataType: "json",
+		type: "GET",
+		success: callback
+	}
+	$.ajax(settings);
 }
 
+function storeSpotifyId(data){
+	var dataArray = data.artists;
+	var firstArtistResult = dataArray.items[0];
+	var spotifyId = firstArtistResult.id;
+	console.log("this is the spotify id: " + spotifyId);
+
+	getArtistTopTracksFromApi(spotifyId, displaySpotifyTopTracksData);
+}
 
 // Render Functionality
 function displaySpotifySearchArtistData(data){
@@ -56,12 +68,22 @@ function displaySpotifySearchArtistData(data){
 	$(".jsArtistSearchResults").html(resultElement);
 }
 
-// function displaySpotifyTopTracksData(tracks){
-// 	var trackArray = tracks.name;
-// 	console.log(trackArray);
+function displaySpotifyTopTracksData(tracks){
+	var trackArray = tracks.tracks;
+	console.log(trackArray);
 
-// 	$(".jsTracksSearchResults").html(resultElement);
-// }
+	var resultElement = "";
+
+
+	if(trackArray){
+		trackArray.forEach(function(element){
+			var songName = element.name;
+
+			resultElement += "<p>" + songName + "</p>"
+		});
+	}
+	$(".jsTracksSearchResults").html(resultElement);
+}
 
 //Event Listener
 function watchSubmit(){
@@ -69,7 +91,8 @@ function watchSubmit(){
 		event.preventDefault();
 		var query = $(this).find(".jsQuery").val();
 		getSearchDataFromApi(query, displaySpotifySearchArtistData);
-		// getSearchDataFromApi(query, displaySpotifyTopTracksData);
+		getSearchDataFromApi(query, storeSpotifyId);
+
 	});
 }
 
