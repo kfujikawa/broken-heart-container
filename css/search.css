@@ -22,3 +22,7 @@
 .searchButton{
 	margin-bottom: 30px;
 }
+
+.heartContainer{
+	display: inline-block;
+}
