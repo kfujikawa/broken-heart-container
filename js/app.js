@@ -115,8 +115,7 @@ function displaySpotifyTopTracksData(tracks){
 		var token = "BQCuiaJQOfKgT99f3nlpoF38jQ3DBPKCl4JfQqMqgDJLmHJPDMrbeOBESNqjGNC2QF9Sr0wR4nb090f8pGY2nty-cL8Bh93yKAT6cMR6UjwYvw_SYdN_D1MvOH855EE2hRmdsRcziBE"
 
 		$.ajax({
-			// url: SPOTIFY_AUDIO_FEATURES_URL + trackIdArray,
-			url: "https://api.spotify.com/v1/audio-features?ids=4vb4mFvYsr2h6enhjJsq9Y,4BHzQ9C00ceJxfG16AlNWb,4kflIGfjdZJW4ot2ioixTB,4sPmO7WMQUAf45kwMOtONw,7IWkJwX9C0J7tHurTD7ViL,1CkvWZme3pRgbzaxZnTl5X,7rPLZ8Krm6CZIbraFUlnWZ,1wMALZpuqAy7amQsFBWQ8m,3CKCZ9pfwAfoMZlMncA1Nc,7GgQi7JTG4b6J4iEF4RTjF",
+			url: SPOTIFY_AUDIO_FEATURES_URL + trackIdArray,
 			success: function(data, status){
 				for(var i = 0; i < data.audio_features.length; i++){
 					valence.push(data.audio_features[i].valence);
