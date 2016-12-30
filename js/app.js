@@ -7,6 +7,8 @@ var SPOTIFY_AUDIO_FEATURES_URL = "https://api.spotify.com/v1/audio-features?ids=
 
 var SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize"
 
+var valence = [];
+
 function getSearchDataFromApi(searchTerm, callback){
 	var settings = {
 		url:  SPOTIFY_SEARCH_URL,
@@ -67,10 +69,8 @@ function displaySpotifyTopTracksData(tracks){
 	var resultElement = "";
 	var trackIdArray = [];
 	var popularityArray = [];
-	var valence = [];
 
 	if(trackArray){
-		console.log(tracks);
 		trackArray.forEach(function(element){
 			var songName = element.name;
 			var trackId = element.id;
@@ -101,24 +101,24 @@ function displaySpotifyTopTracksData(tracks){
 					break;
 			}
 
-			console.log("This is the popularity: " + popularity);
+			// console.log("This is the popularity: " + popularity);
 
 			trackIdArray.push(trackId);
 			popularityArray.push(popularity);
 
-			resultElement += "<p>" + songName + " " +"<img src=" + "img/" + (popularityImage) + ">" +  "</p>"
+			resultElement += "<p class=" + "jsSongResults" + ">" + songName + " " +"<img src=" + "img/" + (popularityImage) + ">" +  "</p>"
 		});
 
 	}
 
 	function getAudioFeaturesFromApi(trackIdArray){
-		var token = "BQCuiaJQOfKgT99f3nlpoF38jQ3DBPKCl4JfQqMqgDJLmHJPDMrbeOBESNqjGNC2QF9Sr0wR4nb090f8pGY2nty-cL8Bh93yKAT6cMR6UjwYvw_SYdN_D1MvOH855EE2hRmdsRcziBE"
+		var token = "BQCIYVlQP3oCyXR92F2w02srdzSaIlq54dfMDgkkhlthsZy8sPBjTUWlOa3vGLZV_v7Mp97_DVcwusOeo9nPnq4A1qRQV6bwzqnUp2v7R9A5sB6SGpMI84gQ5uERbfTBxIghh-Be7ts"
 
 		$.ajax({
 			url: SPOTIFY_AUDIO_FEATURES_URL + trackIdArray,
 			success: function(data, status){
 				for(var i = 0; i < data.audio_features.length; i++){
-					valence.push(data.audio_features[i].valence);
+					valence.push(Math.floor(data.audio_features[i].valence * 100));
 					console.log(valence);
 				}
 			}, 
@@ -128,10 +128,53 @@ function displaySpotifyTopTracksData(tracks){
 			}
 		});
 	}
-	getAudioFeaturesFromApi(trackIdArray);
+
+	function displayValenceHearts(valence){
+		if(valence){
+			valence.forEach(function(element){
+
+				switch (true){
+					case (valence >= 90 && valence <= 100):
+						valenceImage = "heart_container_90_100.png";
+						console.log("valence is 90-100");
+						break;
+					case (valence >= 75 && valence <= 89):
+						valenceImage = "heart_container_75_89.png";
+						console.log("valence is 75-89");
+						break;
+					case (valence >= 60 && valence <= 74):
+						valenceImage = "heart_container_60_74.png";
+						console.log("valence is 60-74");
+						break;
+					case (valence >= 45 && valence <= 59):
+						valenceImage = "heart_container_45_59.png";
+						console.log("valence is 45-59");
+						break;
+					case (valence >= 30 && valence <= 44):
+						valenceImage = "heart_container_30_44.png";
+						console.log("valence is 30-44");
+						break;
+					case (valence >= 15 && valence <= 29):
+						valenceImage = "heart_container_15_29.png";
+						console.log("valence is 15-29");
+						break;
+					case (valence >= 0 && valence <= 14):
+						valenceImage = "heart_container_0_14.png";
+						console.log("valence is 0-14");
+						break;
+				}
+
+				// resultElement += "<img src=" + "img/" + (valenceImage) + ">"
+			});
+
+		}
+	}
 
 	$(".jsTracksSearchResults").html(resultElement);
+
+	// $(".jsSongResults").html(resultElement);
 }
+
 
 //Event Listener
 function watchSubmit(){
