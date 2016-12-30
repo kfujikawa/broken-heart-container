@@ -7,8 +7,7 @@ var SPOTIFY_AUDIO_FEATURES_URL = "https://api.spotify.com/v1/audio-features?ids=
 
 var SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize"
 
-var valence = [];
-
+// Query Functionality
 function getSearchDataFromApi(searchTerm, callback){
 	var settings = {
 		url:  SPOTIFY_SEARCH_URL,
@@ -69,50 +68,22 @@ function displaySpotifyTopTracksData(tracks){
 	var resultElement = "";
 	var trackIdArray = [];
 	var popularityArray = [];
+	var valence = [];
 
 	if(trackArray){
 		trackArray.forEach(function(element){
 			var songName = element.name;
 			var trackId = element.id;
-			var popularity = element.popularity;
-			var popularityImage = "";
-
-			switch (true){
-				case (popularity >= 90 && popularity <= 100):
-					popularityImage = "heart_container_90_100.png";
-					break;
-				case (popularity >= 75 && popularity <= 89):
-					popularityImage = "heart_container_75_89.png";
-					break;
-				case (popularity >= 60 && popularity <= 74):
-					popularityImage = "heart_container_60_74.png";
-					break;
-				case (popularity >= 45 && popularity <= 59):
-					popularityImage = "heart_container_45_59.png";
-					break;
-				case (popularity >= 30 && popularity <= 44):
-					popularityImage = "heart_container_30_44.png";
-					break;
-				case (popularity >= 15 && popularity <= 29):
-					popularityImage = "heart_container_15_29.png";
-					break;
-				case (popularity >= 0 && popularity <= 14):
-					popularityImage = "heart_container_0_14.png";
-					break;
-			}
-
-			// console.log("This is the popularity: " + popularity);
 
 			trackIdArray.push(trackId);
-			popularityArray.push(popularity);
 
-			resultElement += "<p class=" + "jsSongResults" + ">" + songName + " " +"<img src=" + "img/" + (popularityImage) + ">" +  "</p>"
+			resultElement += "<p class=" + "jsSongResults" + ">" + songName + "</p>"
 		});
 
 	}
 
 	function getAudioFeaturesFromApi(trackIdArray){
-		var token = "BQCIYVlQP3oCyXR92F2w02srdzSaIlq54dfMDgkkhlthsZy8sPBjTUWlOa3vGLZV_v7Mp97_DVcwusOeo9nPnq4A1qRQV6bwzqnUp2v7R9A5sB6SGpMI84gQ5uERbfTBxIghh-Be7ts"
+		var token = "BQC4DJu_fdD44pEtglrRH1Vh-EOaE0F4Ld1t2LLa6pMp9chPZ6_hJnIeuGXgz1eGWTXg-QrP2A5KqjjiLKNcAzEbELXDPCpf7h3YLDt7guJqILgQe96_UyPSrutd1Ga9r1hFz1ulaqQ"
 
 		$.ajax({
 			url: SPOTIFY_AUDIO_FEATURES_URL + trackIdArray,
@@ -128,6 +99,8 @@ function displaySpotifyTopTracksData(tracks){
 			}
 		});
 	}
+
+	getAudioFeaturesFromApi(trackIdArray);
 
 	function displayValenceHearts(valence){
 		if(valence){
