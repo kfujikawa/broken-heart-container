@@ -42,36 +42,6 @@ function storeSpotifyId(data){
 	getArtistTopTracksFromApi(spotifyId, displaySpotifyTopTracksData);
 }
 
-// function authorize(){
-// 	var settings = {
-// 		url: SPOTIFY_AUTHORIZATION_URL,
-// 		data: {
-// 			client_id: ,
-// 			response_type: "token",
-// 			redirect_uri: "http://localhost:8888/callback",
-// 		}
-// 	}
-// }
-
-// function getAudioFeaturesFromApi(ids, authorization){
-// 	authorize();
-
-// 	$.ajax({
-// 		url: 'https://api.spotify.com/v1/me',
-// 		headers: {
-// 			'Authorization': 'Bearer ' + accessToken
-// 	},
-// 	   success: function(response){
-// 			var settings = {
-// 				url: SPOTIFY_AUDIO_FEATURES_URL,
-// 				data: {
-// 					authorization: ""
-// 				}
-// 			}
-// 	   }
-// 	});
-// }
-
 // Render Functionality
 function displaySpotifySearchArtistData(data){
 	var dataArray = data.artists;
@@ -84,7 +54,7 @@ function displaySpotifySearchArtistData(data){
 		var artistName = firstArtistResult.name;
 		var spotifyId = firstArtistResult.id;
 
-		resultElement += "<h3>" + "Artist: " + artistName + "</h3>";
+		resultElement += "<h2>" + "Artist: " + artistName + "</h2>";
 	}
 	
 	else{

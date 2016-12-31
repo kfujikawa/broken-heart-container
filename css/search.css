@@ -24,5 +24,10 @@
 }
 
 .heartContainer{
-	display: inline-block;
+	display: block;
+}
+
+img{
+	position: relative;
+	left: 10px;
 }
